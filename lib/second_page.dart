@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:blocdemo/particle.dart';
 import 'package:flutter/material.dart';
 
 ///
@@ -7,17 +8,34 @@ import 'package:flutter/material.dart';
 ///Date: 2020/6/11
 ///Description:
 ///
-class SecondPage extends StatelessWidget {
+class SecondPage extends StatefulWidget {
+  @override
+  _SecondPageState createState() => _SecondPageState();
+}
+
+class _SecondPageState extends State<SecondPage> {
+  bool show = true;
   @override
   Widget build(BuildContext context) {
+    print("_SecondPageState-->build-->${show}");
     return MaterialApp(
       home: Scaffold(
         body: Container(
           color: Colors.black,
           width: double.infinity,
           height: double.infinity,
-          child: CustomPaint(
-            painter: MyCustomPainter(),
+          child: Stack(
+            children: [
+              CustomPaint(
+                painter: MyCustomPainter(),
+              ),
+              if (show)
+                Particle(100, 100, 200, 200).startParticleAnimation((finish) {
+                  print("_SecondPageState-->build-->222${finish}");
+                  show = false;
+                  setState(() {});
+                }),
+            ],
           ),
         ),
       ),
